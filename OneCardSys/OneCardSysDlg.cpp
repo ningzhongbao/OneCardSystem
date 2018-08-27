@@ -48,7 +48,7 @@ BOOL COneCardSysDlg::OnInitDialog()
 	ShowWindow(SW_MINIMIZE);
 
 	// TODO: 在此添加额外的初始化代码
-	this->SetWindowTextW(_T("一卡通专业系统"));
+	this->SetWindowText(_T("一卡通专业系统"));
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -92,7 +92,5 @@ void COneCardSysDlg::OnBnClickedBtnperinfo()
 {
 	// TODO: 在此添加控件通知处理程序代码	
 	CPicture1 *pDlg = new CPicture1(this);
-	pDlg->DoModal();
-
-	
+	pDlg->DoModal();	
 }
