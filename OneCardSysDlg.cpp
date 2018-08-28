@@ -49,8 +49,6 @@ BOOL COneCardSysDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 	this->SetWindowText(_T("一卡通专业系统"));
-
-
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 

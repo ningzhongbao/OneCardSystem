@@ -7,8 +7,6 @@
 #include "Protocol.h"
 #include "afxcmn.h"
 using namespace std;
-#include <WinSock2.h>
-#pragma comment(lib, "ws2_32.lib")
 
 class CPicture1 : public CDialogEx
 {
@@ -32,16 +30,12 @@ protected:
 public:
 	CString				m_image_path;			//图像路径 
 	DWORD				m_nFileLen;			//文件长度
-	long                lSizeOfFile;
 	char				*pBufImgDate;      //存储二进制图片数据
 	CString				m_csFileName;      //路径文件名
 	vector<CString>		m_FileList;        //文件名
 	CString				csDirParth;        //
 	CString				m_AllPath;				//listbox选择的路径；
 	OPEN_DOOR_PROTO     m_Protocol;     //协议包
-
-
-
 public:
 	char *LoadImaData(CString imagPath);     //获取图片数据 
 	void GetFileFromDir(CString csDirPath);  //获取图片路径

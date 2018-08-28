@@ -26,7 +26,7 @@ CPicture1::CPicture1(CWnd* pParent /*=NULL*/)
 	m_Protocol.Begin[2] = '7E';
 	m_Protocol.Begin[3] = '8B';
 
-	pBufImgDate = NULL;
+
 }
 
 CPicture1::~CPicture1()
@@ -115,21 +115,14 @@ void CPicture1::OnPaint()
 
 }
 
-//读取文件长度和数据
 char * CPicture1::LoadImaData(CString imagPath)
 {
 	CFile     file;                        //定义一个文件变量
-	if (!file.Open(imagPath, CFile::modeRead | CFile::typeBinary))//以只读二进制的方式打开文件
+	if (!file.Open(imagPath, CFile::modeRead | CFile::typeBinary))//以制度的方式打开文件
 	{
 		return NULL;
 	}
 
-	if (NULL  != pBufImgDate)//回收pBufImgDate分配的内存空间
-	{
-		delete []pBufImgDate;
-		pBufImgDate = NULL;
-	}
-	
 	m_nFileLen = file.GetLength();//获取文件的长度
 	pBufImgDate = new char[m_nFileLen + 1];//开辟符数组
 	if (!pBufImgDate)            //如果控件不够大
@@ -195,9 +188,8 @@ void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[
 	int    j;
 	int    k;
 	char *ch;
-	bFalge = false;
-	j = 0;
-	int nPos = strTemp.Find(_T("#"));       //查找第一个","的位置
+	
+	int nPos = strTemp.Find("#");       //查找第一个","的位置
 
 	for (int i = 0; i < nMemLen; i++)
 	{
@@ -207,21 +199,17 @@ void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[
 			CString tmp = strTemp.Mid(0, nPos);
 			int val;
 			k = 0;
-			ch = (char *)tmp.GetBuffer(8);
-			char *a = NULL;
+			ch = tmp.GetBuffer(8);
 			while (*ch)
 			{
-				//a = new char[sizeof(char)*sizeof(ch)];
-				//strncpy(a, ch, 10);
-				sscanf(ch, "%c", &val);
+				sscanf(ch, "%02x", &val);
 				sendLine[14 + k] = val;
 				ch++;
 				k++;
-				//free(a);
 			}
-			sendLine[14 + k] = '\0';
 
 			i = nPos;
+
 			/*sendLine[14 + i] = strTemp.GetAt(i);
 			i++;
 			sendLine[14 + i] = strTemp.GetAt(i);*/
@@ -232,13 +220,12 @@ void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[
 		}
 		if (bFalge)
 		{
-			int nLen = strTemp.Delete(0, nPos + 1);		
+			int nLen = strTemp.Delete(0, nPos + 1);
+			//i += nPos;
 			strTemp = strTemp.Right(nLen);
-
-			nPos = strTemp.Find(_T("#"));       //查找第2个"#"的位置
-
+			nPos = strTemp.Find("#");       //查找第2个","的位置
 			nCount++;
-			j = 0;
+
 			bFalge = false;
 		}
 
@@ -248,10 +235,10 @@ void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[
 			CString tmp = strTemp.Mid(0, nPos);
 			int val;
 			k = 0;
-			ch = (char *)tmp.GetBuffer(18);
+			ch = tmp.GetBuffer(18);
 			while (*ch)
 			{
-				sscanf(ch, "%02d", &val);
+				sscanf(ch, "%02x", &val);
 				sendLine[30 + k] = val;
 				ch += 2;
 				k++;
@@ -266,7 +253,7 @@ void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[
 		{
 			int nLen = strTemp.Delete(0, nPos + 1);
 			strTemp = strTemp.Right(nLen);
-			
+			//i += nLen;
 			//小区楼层，单元，楼栋，室号
 			posEnd = strTemp.ReverseFind('.');
 			strTemp = strTemp.Left(posEnd);
@@ -281,10 +268,10 @@ void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[
 		{
 			int val;
 			k = 0;
-			ch = (char *)strTemp.GetBuffer(8);
+			ch = strTemp.GetBuffer(8);
 			while (*ch)
 			{
-				sscanf(ch, "%02d", &val);
+				sscanf(ch, "%02x", &val);
 				sendLine[4 + k] = val;
 				ch += 2;
 				k++;
@@ -299,100 +286,35 @@ void CPicture1::OnBnClickedIdok()
 	// TODO: 在此添加控件通知处理程序代码
 	UpdateData(TRUE);
 
-/***********************************socket*******************************************************/
-	SOCKET cliSockfd;
-
-	SOCKADDR_IN  ser_Addr;
-
-	WSADATA wsaData;
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-	{
-		MessageBox(_T("WSAStartup Error!"), NULL, MB_OK);
-		return ;
-	}
-	
-	cliSockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (SOCKET_ERROR == cliSockfd)
-	{
-		MessageBox(_T("socket_Init Error!"), NULL, MB_OK);
-		return;
-	}
-	ser_Addr.sin_family = AF_INET;
-	ser_Addr.sin_addr.s_addr = inet_addr("192.168.7.116");
-	ser_Addr.sin_port = htons(6660);
-
-	if (SOCKET_ERROR == connect(cliSockfd, (SOCKADDR*)&ser_Addr, sizeof(SOCKADDR)))
-	{
-		MessageBox(_T("connect Error!"), NULL, MB_OK);
-		return;
-	}
-
-	/***************************************sendline***************************************************/
 	//变量定义
 	unsigned char sendLine[200];
-
 	CString strTemp;
-	int i;
-	vector<CString>::iterator fileList;         //定义一个迭代器t	
+	vector<CString>::iterator tT;         //定义一个迭代器t
+
+	
 										  //变量初始化
 	int nCount = 0;
 	int nMemLen = 0;
 	
-	for (fileList = m_FileList.begin(); fileList != m_FileList.end(); fileList++)
+	for (tT = m_FileList.begin(); tT != m_FileList.end(); tT++)
 	{
 		memset(sendLine, 0, sizeof(sendLine));
 		nCount = 0;
-		i = 0;
-		i +=49;
-		nMemLen = fileList->GetLength();
-		strTemp = *fileList;
-		//发送图片数据
-		m_AllPath = csDirParth + "\\" + strTemp;
-		//加载图片数据到pictmp
-		char *picTmp = LoadImaData(m_AllPath);
-
+		nMemLen = tT->GetLength();
+		strTemp = *tT;		
 
 		sendLine[0] = 0x7e;
 		sendLine[1] = 0x7e;
 		sendLine[2] = 0x7e;
 		sendLine[3] = 0x8b;
 		sendLine[48] = 0x0d;
-		sendLine[22] = 0x02;
-		//图片文件大小
-		sendLine[25] = m_nFileLen / 65536;
-		sendLine[26] = m_nFileLen / 256;
-		sendLine[27] = m_nFileLen;
-		sendLine[28] = 0x02;
-		sendLine[29] = 0x01;
-		sendLine[30] = 0x01;
-		//解析文件名中的信息
+
 		JxFNToArr(nCount, nMemLen, strTemp, sendLine);
 
-		//发送协议包
-		if (SOCKET_ERROR == send(cliSockfd, (char *)sendLine, 49, 0))
-		{
-			MessageBox(_T("send data error"),NULL, MB_OK);	
-		}
-		else
-		{
-			CString t;
-			t.Format(_T("send data %s success"), strTemp);			
-			MessageBox(t, NULL, 0);
-			
-			//发送人脸照片
-			if (SOCKET_ERROR != send(cliSockfd, pBufImgDate, m_nFileLen, 0))
-			{
-				CString t;
-				t.Format(_T("send Picture %s success"), strTemp);
-				MessageBox(t, NULL, 0);
-			}
-			else
-			{
-				MessageBox(_T("send picture error"), NULL, MB_OK);
-			}
 
-		}			
+		MessageBox((LPCTSTR)sendLine, NULL, MB_OK);
 	}
+
 }
 
 void CPicture1::OnBnClickedOpenFacepath()
@@ -443,7 +365,7 @@ void CPicture1::GetFileFromDir(CString csDirPath)
 void CPicture1::Ui_Show_Info(CString m_filename)
 {
 	//名字
-	int pos = m_filename.Find(_T("#"));
+	int pos = m_filename.Find("#");
 	m_Name = m_filename.Mid(0, pos);
 	
 	//删除已经截取的名字
@@ -451,7 +373,7 @@ void CPicture1::Ui_Show_Info(CString m_filename)
 	m_filename = m_filename.Right(nLen);
 	
 	//身份证
-	pos = m_filename.Find(_T("#"));
+	pos = m_filename.Find("#");
 	if (-1 != pos)
 	{
 		m_IDCard = m_filename.Mid(0, pos);
@@ -491,7 +413,7 @@ void CPicture1::OnLbnSelchangeList2()
 
 	m_AllPath = csDirParth + "\\" + m_filename;
 
-	//LoadImaData(m_AllPath);
+	LoadImaData(m_AllPath);
 
 	m_Image_String = m_AllPath;
 	m_image_path = m_AllPath;
