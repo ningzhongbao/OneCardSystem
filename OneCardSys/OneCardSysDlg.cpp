@@ -18,19 +18,27 @@
 
 COneCardSysDlg::COneCardSysDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_ONECARDSYS_DIALOG, pParent)
+	, m_strUser(_T(""))
+	, m_strPwd(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
+COneCardSysDlg::~COneCardSysDlg()
+{
 
+}
 void COneCardSysDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDIT_USER, m_strUser);
+	DDX_Text(pDX, IDC_EDIT_PWD, m_strPwd);
 }
 
 BEGIN_MESSAGE_MAP(COneCardSysDlg, CDialogEx)
 	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BtnPerInfo, &COneCardSysDlg::OnBnClickedBtnperinfo)
+	ON_WM_QUERYDRAGICON()	
+	ON_BN_CLICKED(IDC_BtnLogin, &COneCardSysDlg::OnBnClickedBtnlogin)
+	ON_BN_CLICKED(IDC_BtnCannel, &COneCardSysDlg::OnBnClickedBtncannel)
 END_MESSAGE_MAP()
 
 
@@ -48,8 +56,13 @@ BOOL COneCardSysDlg::OnInitDialog()
 	ShowWindow(SW_MINIMIZE);
 
 	// TODO: 在此添加额外的初始化代码
+	UpdateData(TRUE);
+	
 	this->SetWindowText(_T("一卡通专业系统"));
+	m_strUser = "1";
+	m_strPwd = "1";
 
+	UpdateData(FALSE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -90,9 +103,28 @@ HCURSOR COneCardSysDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 } 
 
-void COneCardSysDlg::OnBnClickedBtnperinfo()
+
+void COneCardSysDlg::OnBnClickedBtnlogin()
 {
 	// TODO: 在此添加控件通知处理程序代码	
-	CPicture1 *pDlg = new CPicture1(this);
-	pDlg->DoModal();	
+	UpdateData(TRUE);
+
+	if (m_strUser != L"1" && m_strPwd != L"1")
+	{
+		MessageBox("用户ID或密码错误！\n 请重新输入！", "登录失败！", MB_OK | MB_ICONERROR);
+	}
+	else
+	{
+		this->ShowWindow(SW_HIDE);
+
+		CSysMainUi mainUi;
+		mainUi.DoModal();
+	}
+}
+
+
+void COneCardSysDlg::OnBnClickedBtncannel()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	PostQuitMessage(0);
 }

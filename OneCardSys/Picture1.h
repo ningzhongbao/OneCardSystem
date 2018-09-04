@@ -4,7 +4,6 @@
 
 // CPicture1 对话框
 #include <vector>
-#include "Protocol.h"
 #include "afxcmn.h"
 using namespace std;
 #include <WinSock2.h>
@@ -37,12 +36,12 @@ public:
 	CString				m_csFileName;      //路径文件名
 	vector<CString>		m_FileList;        //文件名
 	CString				csDirParth;        //
-	CString				m_AllPath;				//listbox选择的路径；
-	OPEN_DOOR_PROTO     m_Protocol;     //协议包
+	CString				m_AllPath;				//listbox选择的路径；	
 
 
 
 public:
+	void ClearData();
 	char *LoadImaData(CString imagPath);     //获取图片数据 
 	void GetFileFromDir(CString csDirPath);  //获取图片路径
 	void JxFileName(CString jpgName);
@@ -50,19 +49,20 @@ public:
 
 public:	
 	CStatic m_Image;
-	afx_msg void OnBnClickedAddPerface();
-	afx_msg void OnBnClickedDelePerface();
 	CString m_Image_String;
-	afx_msg void OnBnClickedCannel();
 	CString m_Name;
 	CString m_IDCard;
 	CString m_DyId;
 	CString m_LcId;
 	CString m_LcIdd;
 	CString m_ShId;
-	afx_msg void OnBnClickedIdok();
-	afx_msg void OnBnClickedOpenFacepath();
 	CListBox m_ListBox;
+
+	afx_msg void OnBnClickedAddPerface();
+	afx_msg void OnBnClickedDelePerface();
+	afx_msg void OnBnClickedCannel();
+	afx_msg void OnBnClickedIdok();
+	afx_msg void OnBnClickedOpenFacepath();	
 	afx_msg void OnLbnSelchangeList2();
 	afx_msg void OnBnClickedDeleList();
 };

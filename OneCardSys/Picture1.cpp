@@ -21,11 +21,6 @@ CPicture1::CPicture1(CWnd* pParent /*=NULL*/)
 	, m_LcIdd(_T(""))
 	, m_ShId(_T(""))
 {
-	m_Protocol.Begin[0] = '7E';
-	m_Protocol.Begin[1] = '7E';
-	m_Protocol.Begin[2] = '7E';
-	m_Protocol.Begin[3] = '8B';
-
 	pBufImgDate = NULL;
 }
 
@@ -134,11 +129,11 @@ char * CPicture1::LoadImaData(CString imagPath)
 	pBufImgDate = new char[m_nFileLen + 1];//开辟符数组
 	if (!pBufImgDate)            //如果控件不够大
 	{
-		return "Error";
+		throw "内存分配失败";		
 	}
 	if (file.Read(pBufImgDate, m_nFileLen) != m_nFileLen)//读取文件保存在字符数组中
 	{
-		return "Error";
+		throw "文件读取错误";		
 	}
 
 	return pBufImgDate;
@@ -152,8 +147,6 @@ void CPicture1::OnBnClickedAddPerface()
 
 	LoadImaData(m_image_path);
 
-
-
 	m_Image_String = m_image_path;
 
 	UpdateData(FALSE);
@@ -162,14 +155,13 @@ void CPicture1::OnBnClickedAddPerface()
 }
 
 
-
 void CPicture1::OnBnClickedDelePerface()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	UpdateData(TRUE);
 	m_image_path = "";
 	m_Image_String = m_image_path;
-
+	
 	UpdateData(FALSE);
 
 	Invalidate(TRUE);
@@ -182,12 +174,7 @@ void CPicture1::OnBnClickedCannel()
 	CDialog::OnCancel();
 }
 
-void JxFileName(CString jpgName)
-{
-
-
-}
-
+//解析文件名的name,idcard,ld,lc,dy,sh
 void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[10])
 {
 	bool   bFalge;
@@ -294,6 +281,7 @@ void JxFNToArr(int nCount, int nMemLen, CString strTemp, unsigned char sendLine[
 	}
 }
 
+//发送协议包到控制器
 void CPicture1::OnBnClickedIdok()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -326,8 +314,8 @@ void CPicture1::OnBnClickedIdok()
 		MessageBox(_T("connect Error!"), NULL, MB_OK);
 		return;
 	}
-
 	/***************************************sendline***************************************************/
+	
 	//变量定义
 	unsigned char sendLine[200];
 
@@ -349,8 +337,20 @@ void CPicture1::OnBnClickedIdok()
 		//发送图片数据
 		m_AllPath = csDirParth + "\\" + strTemp;
 		//加载图片数据到pictmp
-		char *picTmp = LoadImaData(m_AllPath);
-
+		try
+		{
+			char *picTmp = LoadImaData(m_AllPath);
+		}
+		catch (char *e)
+		{
+			MessageBox(e, NULL, MB_ICONERROR);
+			break;
+		}
+		catch (...)
+		{
+			MessageBox(_T("未知错误"), NULL, MB_ICONERROR);
+			break;
+		}		
 
 		sendLine[0] = 0x7e;
 		sendLine[1] = 0x7e;
@@ -365,6 +365,7 @@ void CPicture1::OnBnClickedIdok()
 		sendLine[28] = 0x02;
 		sendLine[29] = 0x01;
 		sendLine[30] = 0x01;
+
 		//解析文件名中的信息
 		JxFNToArr(nCount, nMemLen, strTemp, sendLine);
 
@@ -390,7 +391,6 @@ void CPicture1::OnBnClickedIdok()
 			{
 				MessageBox(_T("send picture error"), NULL, MB_OK);
 			}
-
 		}			
 	}
 }
@@ -398,8 +398,9 @@ void CPicture1::OnBnClickedIdok()
 void CPicture1::OnBnClickedOpenFacepath()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CFileDialog dlg(TRUE);///TRUE为OPEN对话框，FALSE为SAVE AS对话框  
+	ClearData();  //情况vector
 
+	CFileDialog dlg(TRUE);///TRUE为OPEN对话框，FALSE为SAVE AS对话框  
 	if (dlg.DoModal() == IDOK)
 		m_csFileName = dlg.GetPathName();
 	else
@@ -409,13 +410,17 @@ void CPicture1::OnBnClickedOpenFacepath()
 	iEndPos = m_csFileName.ReverseFind('\\');
 	csDirParth = m_csFileName.Left(iEndPos);
 
-	m_FileList.clear();
+	//获取文件名
 	GetFileFromDir(csDirParth);
+
+	if (m_FileList.empty())
+	{
+		return;
+	}
 
 	for (int i = 0; i < m_FileList.size(); i++)
 	{
 		m_ListBox.AddString(m_FileList.at(i));
-
 	}
 }
 
@@ -428,9 +433,11 @@ void CPicture1::GetFileFromDir(CString csDirPath)
 	char line[1024];
 	char fn[1000];
 
+	//获取第一个文件名
 	file = FindFirstFile(csDirPath.GetBuffer(0), &fileData);
 	m_FileList.push_back(fileData.cFileName);
 
+	//根据第一个文件名，向下获取
 	bool bState = false;
 	bState = FindNextFile(file, &fileData);
 	while (bState)
@@ -439,6 +446,25 @@ void CPicture1::GetFileFromDir(CString csDirPath)
 		bState = FindNextFile(file, &fileData);
 	}
 }
+
+//清空数据
+void CPicture1::ClearData()
+{
+	if (!m_FileList.empty())
+	{
+		m_FileList.clear();
+		vector<CString>().swap(m_FileList);
+	}
+
+	m_ListBox.ResetContent();
+	m_LcId = "";
+	m_LcIdd = "";
+	m_DyId = "";
+	m_ShId = "";
+	m_Name = "";
+	m_IDCard = "";
+}
+
 
 void CPicture1::Ui_Show_Info(CString m_filename)
 {
@@ -464,7 +490,7 @@ void CPicture1::Ui_Show_Info(CString m_filename)
 		m_filename = m_filename.Left(posEnd);
 		//单元号
 		m_DyId = m_filename.Left(2); //最左边的两个数字
-									 //楼层号
+		//楼层号
 		nLen = m_filename.Delete(0, 2);
 		m_filename = m_filename.Right(nLen);
 		m_LcId = m_filename.Left(2);
@@ -506,13 +532,7 @@ void CPicture1::OnLbnSelchangeList2()
 void CPicture1::OnBnClickedDeleList()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	m_ListBox.ResetContent();
-	m_LcId = "";
-	m_LcIdd = "";
-	m_DyId = "";
-	m_ShId = "";
-	m_Name = "";
-	m_IDCard = "";
+	ClearData();
 
 	UpdateData(FALSE);
 }

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="NetManage">
+      <UniqueIdentifier>{f51aa4b5-619e-435d-b790-abd8f5228010}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OneCardSys.h">
@@ -33,7 +36,31 @@
     <ClInclude Include="Picture1.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol.h">
+    <ClInclude Include="GetInfoPer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NetManager\netstructcolletion.h">
+      <Filter>NetManage</Filter>
+    </ClInclude>
+    <ClInclude Include="NetManager\netmanager.h">
+      <Filter>NetManage</Filter>
+    </ClInclude>
+    <ClInclude Include="NetManager\netenumcollection.h">
+      <Filter>NetManage</Filter>
+    </ClInclude>
+    <ClInclude Include="NetManager\netdefcollection.h">
+      <Filter>NetManage</Filter>
+    </ClInclude>
+    <ClInclude Include="GetOwerInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SysMainUi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceOper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceGroupAdd.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,6 +75,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Picture1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GetInfoPer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GetOwerInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SysMainUi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceOper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceGroupAdd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

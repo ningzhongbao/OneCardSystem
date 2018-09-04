@@ -35,12 +35,15 @@
 
 
 #include <afxsock.h>            // MFC Ì×½Ó×ÖÀ©Õ¹
+#include <afxdlgs.h>
 
 
 
 
 
-
+#include "../OneCardSys/NetManager/netmanager.h"
+#include "../OneCardSys/StreamAdapter/StreamAdapter.h"
+#include "../OneCardSys/NetManager/netstructcolletion.h"
 
 #ifdef _UNICODE
 #if defined _M_IX86
