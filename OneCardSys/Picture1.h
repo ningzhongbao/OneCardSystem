@@ -3,6 +3,7 @@
 
 
 // CPicture1 ¶Ô»°¿ò
+	
 #include <vector>
 #include "afxcmn.h"
 using namespace std;

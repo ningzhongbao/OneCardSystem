@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 #include "afxwin.h"
+#include <vector>
+using namespace std;
 
 // CFaceOper 对话框
 
@@ -40,6 +42,13 @@ public:
 	BOOL UI_RefreshCurFaceInfo(STU_FACE_GROUP_INFO* pCurFaceInfo);
 
 	BOOL UI_RefreshCurPerson(STU_PERSON_FACE_INFO* pCurPerson);
+
+	//上传人脸
+	void ClearData();
+	BOOL CheckNameSuffix(IN const char* lpszName, OUT char* lpszNewName, int nNewNameLen);
+	BOOL AddPersonInfo(unsigned int nGroupID, STU_PERSON_INFO* pstPersonInfo, std::vector<CString> &vecImages);
+
+
 
 public:
 	LLONG m_lLoginID;
@@ -100,6 +109,29 @@ public:
 	CStatic m_static_image_1;
 	CStatic m_static_image_2;
 	CStatic m_static_image_3;
+
+	////////////////////////////////////////////////////////////////
+	CString				m_csFileName;      //路径文件名
+	vector<CString>		m_FileList;        //文件名
+	CString				csDirParth;        //
+	void GetFileFromDir(CString csDirPath);
+
+	void Ui_Show(CString g_strPictureShow);
+	inline int CurFaceGroupIndex()
+	{ 
+		return m_list_face_group.GetCurSel();
+	};
+
+
+	STU_PERSON_INFO m_stPersonInfo;//人的基本信息
+	CString m_person_birth;
+	CString m_person_sex;
+	CString m_person_certificate_type;
+	CString m_person_certificate_id;
+	CString m_person_county;
+	CString m_person_province;
+	CString m_person_city;
+
 	/////////////////////////////////////////////////////////////
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -110,4 +142,8 @@ public:
 	afx_msg void OnBnClickedBtnRefreshFaceGroup();
 	CListBox m_list_face_group;
 	afx_msg void OnBnClickedBtnDeleteFaceGroup();
+	CStatic m_Picture;
+	afx_msg void OnBnClickedBtnPersonAdd();
+	afx_msg void OnBnClickedBtnUp();
+	CString m_Name_ID;
 };
