@@ -1,0 +1,8 @@
+﻿  FaceOper.cpp
+d:\shyt\onecardsys\onecardsys\faceoper.cpp(511): warning C4800: “BOOL”: 将值强制为布尔值“true”或“false”(性能警告)
+d:\shyt\onecardsys\onecardsys\faceoper.cpp(515): warning C4800: “BOOL”: 将值强制为布尔值“true”或“false”(性能警告)
+d:\shyt\onecardsys\onecardsys\faceoper.cpp(503): warning C4101: “fn”: 未引用的局部变量
+d:\shyt\onecardsys\onecardsys\faceoper.cpp(502): warning C4101: “line”: 未引用的局部变量
+d:\shyt\onecardsys\onecardsys\faceoper.cpp(536): warning C4018: “<”: 有符号/无符号不匹配
+  OneCardSys.vcxproj -> D:\SHYT\OneCardSys\Debug\OneCardSys.exe
+  OneCardSys.vcxproj -> D:\SHYT\OneCardSys\Debug\OneCardSys.pdb (Partial PDB)

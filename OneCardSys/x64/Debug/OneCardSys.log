@@ -1,0 +1,34 @@
+﻿  stdafx.cpp
+  Picture1.cpp
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(128): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(211): warning C4477: “sscanf”: 格式字符串“%c”需要类型“char *”的参数，但可变参数 1 拥有了类型“int *”
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(211): error C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(2254): note: 参见“sscanf”的声明
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(249): error C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(2254): note: 参见“sscanf”的声明
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(282): error C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(2254): note: 参见“sscanf”的声明
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(357): warning C4244: “=”: 从“DWORD”转换到“unsigned char”，可能丢失数据
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(358): warning C4244: “=”: 从“DWORD”转换到“unsigned char”，可能丢失数据
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(359): warning C4244: “=”: 从“DWORD”转换到“unsigned char”，可能丢失数据
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(316): error C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(1850): note: 参见“inet_addr”的声明
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(430): warning C4800: “BOOL”: 将值强制为布尔值“true”或“false”(性能警告)
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(434): warning C4800: “BOOL”: 将值强制为布尔值“true”或“false”(性能警告)
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(424): warning C4101: “fn”: 未引用的局部变量
+d:\zsproject\onecardsys\onecardsys\picture1.cpp(423): warning C4101: “line”: 未引用的局部变量
+  OneCardSysDlg.cpp
+  OneCardSys.cpp
+  GetInfoPer.cpp
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(22): warning C4002: “_T”宏的实参太多
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(48): warning C4312: “类型转换”: 从“DWORD”转换到更大的“CGetInfoPer *”
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(60): warning C4311: “类型转换”: 从“void *”到“DWORD”的指针截断
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(60): warning C4302: “类型转换”: 从“void *”到“DWORD”截断
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(69): error C2664: “LONG Net_LoginDevice(char *,int,char *,char *,void *,int *)”: 无法将参数 1 从“wchar_t *”转换为“char *”
+  d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(69): note: 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(98): warning C4312: “类型转换”: 从“DWORD”转换到更大的“CGetInfoPer *”
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(130): warning C4311: “类型转换”: 从“CGetInfoPer *const ”到“DWORD”的指针截断
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(130): warning C4302: “类型转换”: 从“CGetInfoPer *const ”到“DWORD”截断
+d:\zsproject\onecardsys\onecardsys\getinfoper.cpp(132): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+  正在生成代码...
